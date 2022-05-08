@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import rs.ac.singidunum.isa.app.dto.StudentDTO;
+import rs.ac.singidunum.isa.app.model.Administrator;
 import rs.ac.singidunum.isa.app.model.Korisnik;
 import rs.ac.singidunum.isa.app.model.PravoPristupa;
 import rs.ac.singidunum.isa.app.model.Student;
@@ -97,7 +98,14 @@ public class StudentController {
     @RequestMapping(path = "/{studentId}", method = RequestMethod.DELETE)
     @Secured("ROLE_ADMIN")
     public ResponseEntity<StudentDTO> deleteStudent(@PathVariable("studentId") Long studentId) {
-        if(studentService.findOne(studentId).isPresent()) {
+        Optional<Student> student = studentService.findOne(studentId);
+        if(student.isPresent()) {
+//            Dodato
+            Optional<PravoPristupa> pravoPristupa = pravoPristupaService.findPravoPristupaByNaziv("ROLE_KORISNIK");
+            Optional<Korisnik> korisnik = korisnikService.findOne(student.get().getKorisnik().getId());
+            korisnik.get().setPravoPristupa(pravoPristupa.get());
+            korisnikService.save(korisnik.get());
+//
             studentService.delete(studentId);
             return new ResponseEntity<StudentDTO>(HttpStatus.OK);
         }

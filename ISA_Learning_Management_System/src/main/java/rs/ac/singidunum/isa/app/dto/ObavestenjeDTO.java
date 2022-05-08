@@ -13,7 +13,7 @@ public class ObavestenjeDTO {
     private String naslov;
     private NastavnikNaRealizacijiDTO nastavnikNaRealizaciji;
     private RealizacijaPredmetaDTO realizacijaPredmeta;
-    private ArrayList<FajlDTO> fajlovi = new ArrayList<>();
+    private ArrayList<FajlDTO> prilozi = new ArrayList<>();
 
     public ObavestenjeDTO() {
     }
@@ -34,14 +34,14 @@ public class ObavestenjeDTO {
         this.realizacijaPredmeta = realizacijaPredmeta;
     }
 
-    public ObavestenjeDTO(Long id, Date vremePostavljanja, String sadrzaj, String naslov, NastavnikNaRealizacijiDTO nastavnikNaRealizaciji, RealizacijaPredmetaDTO realizacijaPredmeta, ArrayList<FajlDTO> fajlovi) {
+    public ObavestenjeDTO(Long id, Date vremePostavljanja, String sadrzaj, String naslov, NastavnikNaRealizacijiDTO nastavnikNaRealizaciji, RealizacijaPredmetaDTO realizacijaPredmeta, ArrayList<FajlDTO> prilozi) {
         this.id = id;
         this.vremePostavljanja = vremePostavljanja;
         this.sadrzaj = sadrzaj;
         this.naslov = naslov;
         this.nastavnikNaRealizaciji = nastavnikNaRealizaciji;
         this.realizacijaPredmeta = realizacijaPredmeta;
-        this.fajlovi = fajlovi;
+        this.prilozi = prilozi;
     }
 
     public Long getId() {
@@ -92,12 +92,12 @@ public class ObavestenjeDTO {
         this.realizacijaPredmeta = realizacijaPredmeta;
     }
 
-    public ArrayList<FajlDTO> getFajlovi() {
-        return fajlovi;
+    public ArrayList<FajlDTO> getPrilozi() {
+        return prilozi;
     }
 
-    public void setFajlovi(ArrayList<FajlDTO> fajlovi) {
-        this.fajlovi = fajlovi;
+    public void setPrilozi(ArrayList<FajlDTO> prilozi) {
+        this.prilozi = prilozi;
     }
 
     public static ArrayList<ObavestenjeDTO> toDTOArrayList(Iterable<Obavestenje> obavestenja, Boolean depth) {
@@ -121,7 +121,7 @@ public class ObavestenjeDTO {
         if(depth) {
             obavestenjeDTO.setNastavnikNaRealizaciji(NastavnikNaRealizacijiDTO.toDTO(obavestenje.getNastavnikNaRealizaciji(), false));
             obavestenjeDTO.setRealizacijaPredmeta(RealizacijaPredmetaDTO.toDTO(obavestenje.getRealizacijaPredmeta(), false));
-            obavestenjeDTO.setFajlovi(FajlDTO.toDTOArrayList(obavestenje.getPrilozi(), false));
+            obavestenjeDTO.setPrilozi(FajlDTO.toDTOArrayList(obavestenje.getPrilozi(), false));
         }
         return obavestenjeDTO;
     }

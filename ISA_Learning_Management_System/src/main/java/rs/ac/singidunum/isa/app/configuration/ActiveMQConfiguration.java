@@ -9,7 +9,7 @@ import javax.jms.Queue;
 @Configuration
 public class ActiveMQConfiguration {
     @Bean
-    public Queue logQueue() {
+    public Queue obavestenjeQueue() {
         return new ActiveMQQueue("obavestenje");
     }
 

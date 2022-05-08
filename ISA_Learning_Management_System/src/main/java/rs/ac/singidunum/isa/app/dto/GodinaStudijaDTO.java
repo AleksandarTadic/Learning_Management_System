@@ -9,7 +9,7 @@ import java.util.Set;
 public class GodinaStudijaDTO {
     private Long id;
     private Date godina;
-    private PredmetDTO predmet;
+    private ArrayList<PredmetDTO> predmeti = new ArrayList<PredmetDTO>();
 
     private ArrayList<StudijskiProgramDTO> studijskiProgrami = new ArrayList<StudijskiProgramDTO>();
 
@@ -21,16 +21,10 @@ public class GodinaStudijaDTO {
         this.godina = godina;
     }
 
-    public GodinaStudijaDTO(Long id, Date godina, PredmetDTO predmet) {
+    public GodinaStudijaDTO(Long id, Date godina, ArrayList<PredmetDTO> predmeti, ArrayList<StudijskiProgramDTO> studijskiProgrami) {
         this.id = id;
         this.godina = godina;
-        this.predmet = predmet;
-    }
-
-    public GodinaStudijaDTO(Long id, Date godina, PredmetDTO predmet, ArrayList<StudijskiProgramDTO> studijskiProgrami) {
-        this.id = id;
-        this.godina = godina;
-        this.predmet = predmet;
+        this.predmeti = predmeti;
         this.studijskiProgrami = studijskiProgrami;
     }
 
@@ -50,12 +44,12 @@ public class GodinaStudijaDTO {
         this.godina = godina;
     }
 
-    public PredmetDTO getPredmet() {
-        return predmet;
+    public ArrayList<PredmetDTO> getPredmeti() {
+        return predmeti;
     }
 
-    public void setPredmet(PredmetDTO predmet) {
-        this.predmet = predmet;
+    public void setPredmeti(ArrayList<PredmetDTO> predmeti) {
+        this.predmeti = predmeti;
     }
 
     public ArrayList<StudijskiProgramDTO> getStudijskiProgrami() {
@@ -85,7 +79,7 @@ public class GodinaStudijaDTO {
     public static GodinaStudijaDTO toDTO(GodinaStudija godinaStudija, Boolean depth) {
         GodinaStudijaDTO godinaStudijaDTO = new GodinaStudijaDTO(godinaStudija.getId(), godinaStudija.getGodina());
         if(depth) {
-            godinaStudijaDTO.setPredmet(PredmetDTO.toDTO(godinaStudija.getPredmet(), false));
+            godinaStudijaDTO.setPredmeti(PredmetDTO.toDTOArrayList(godinaStudija.getPredmeti(), false));
             godinaStudijaDTO.setStudijskiProgrami(StudijskiProgramDTO.toDTOArrayList(godinaStudija.getStudijskiProgrami(), false));
         }
         return godinaStudijaDTO;

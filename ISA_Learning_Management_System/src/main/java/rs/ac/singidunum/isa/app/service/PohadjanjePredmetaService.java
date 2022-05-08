@@ -3,8 +3,10 @@ package rs.ac.singidunum.isa.app.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.singidunum.isa.app.model.PohadjanjePredmeta;
+import rs.ac.singidunum.isa.app.model.Student;
 import rs.ac.singidunum.isa.app.repository.PohadjanjePredmetaRepository;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -45,5 +47,15 @@ public class PohadjanjePredmetaService {
 
     public void delete(PohadjanjePredmeta pohadjanjePredmeta) {
         this.pohadjanjePredmetaRepository.delete(pohadjanjePredmeta);
+    }
+
+    public ArrayList<String> findEmailByRealizacijaPredmeta(Long id) {
+        ArrayList<String> emailovi = new ArrayList<>();
+        for(PohadjanjePredmeta p : pohadjanjePredmetaRepository.findAll()) {
+            if(p.getRealizacijaPredmeta().getId() == id) {
+                emailovi.add(p.getStudent().getKorisnik().getEmail());
+            }
+        }
+        return emailovi;
     }
 }

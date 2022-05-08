@@ -23,7 +23,7 @@ public class Obavestenje {
     @ManyToOne(optional = false)
     private RealizacijaPredmeta realizacijaPredmeta;
 
-    @OneToMany(mappedBy = "obavestenje")
+    @OneToMany(mappedBy = "obavestenje", cascade = CascadeType.ALL)
     private Set<Fajl> prilozi = new HashSet<Fajl>();
 
     public Obavestenje() {

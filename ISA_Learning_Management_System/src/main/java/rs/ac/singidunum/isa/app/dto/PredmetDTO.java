@@ -4,6 +4,7 @@ package rs.ac.singidunum.isa.app.dto;
 
 import rs.ac.singidunum.isa.app.model.Predmet;
 
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Set;
@@ -20,13 +21,11 @@ public class PredmetDTO {
     private int ostaliCasovi;
     //    opciono
     private int brojSemestara;
+
     private PredmetDTO preduslov;
 
-//    @OneToMany(mappedBy = "predmet")
-//    private ArrayList<PredmetDTO> predmeti = new ArrayList<PredmetDTO>();
-
-    @OneToMany(mappedBy = "predmet")
     private ArrayList<IshodDTO> silabus = new ArrayList<IshodDTO>();
+    private ArrayList<GodinaStudijaDTO> godineStudija = new ArrayList<GodinaStudijaDTO>();
 
     public PredmetDTO() {
     }
@@ -58,7 +57,22 @@ public class PredmetDTO {
         this.preduslov = preduslov;
     }
 
-    public PredmetDTO(Long id, String naziv, int espb, boolean obavezan, int brojPredavanja, int brojVezbi, int drugiObliciNastave, int istrazivackiRad, int ostaliCasovi, int brojSemestara, PredmetDTO preduslov, ArrayList<IshodDTO> silabus) {
+    public PredmetDTO(Long id, String naziv, int espb, boolean obavezan, int brojPredavanja, int brojVezbi, int drugiObliciNastave, int istrazivackiRad, int ostaliCasovi, int brojSemestara, ArrayList<IshodDTO> silabus, ArrayList<GodinaStudijaDTO> godineStudija) {
+        this.id = id;
+        this.naziv = naziv;
+        this.espb = espb;
+        this.obavezan = obavezan;
+        this.brojPredavanja = brojPredavanja;
+        this.brojVezbi = brojVezbi;
+        this.drugiObliciNastave = drugiObliciNastave;
+        this.istrazivackiRad = istrazivackiRad;
+        this.ostaliCasovi = ostaliCasovi;
+        this.brojSemestara = brojSemestara;
+        this.silabus = silabus;
+        this.godineStudija = godineStudija;
+    }
+
+    public PredmetDTO(Long id, String naziv, int espb, boolean obavezan, int brojPredavanja, int brojVezbi, int drugiObliciNastave, int istrazivackiRad, int ostaliCasovi, int brojSemestara, PredmetDTO preduslov, ArrayList<IshodDTO> silabus, ArrayList<GodinaStudijaDTO> godineStudija) {
         this.id = id;
         this.naziv = naziv;
         this.espb = espb;
@@ -71,6 +85,7 @@ public class PredmetDTO {
         this.brojSemestara = brojSemestara;
         this.preduslov = preduslov;
         this.silabus = silabus;
+        this.godineStudija = godineStudija;
     }
 
     public Long getId() {
@@ -161,20 +176,20 @@ public class PredmetDTO {
         this.preduslov = preduslov;
     }
 
-    //    public ArrayList<PredmetDTO> getPredmeti() {
-//        return predmeti;
-//    }
-//
-//    public void setPredmeti(ArrayList<PredmetDTO> predmeti) {
-//        this.predmeti = predmeti;
-//    }
-
     public ArrayList<IshodDTO> getSilabus() {
         return silabus;
     }
 
     public void setSilabus(ArrayList<IshodDTO> silabus) {
         this.silabus = silabus;
+    }
+
+    public ArrayList<GodinaStudijaDTO> getGodineStudija() {
+        return godineStudija;
+    }
+
+    public void setGodineStudija(ArrayList<GodinaStudijaDTO> godineStudija) {
+        this.godineStudija = godineStudija;
     }
 
     public static ArrayList<PredmetDTO> toDTOArrayList(Iterable<Predmet> predmeti, Boolean depth) {
@@ -199,8 +214,7 @@ public class PredmetDTO {
             if(predmet.getPreduslov() != null) {
                 predmetDTO.setPreduslov(PredmetDTO.toDTO(predmet.getPreduslov(), false));
             }
-//            predmetDTO.setPredmet(PredmetDTO.toDTO(predmet.getPredmet(), false));
-//            predmetDTO.setPredmeti(predmetDTO.toDTOArrayList(predmet.getPredmeti(), false));
+            predmetDTO.setGodineStudija(GodinaStudijaDTO.toDTOArrayList(predmet.getGodineStudija(), false));
             predmetDTO.setSilabus(IshodDTO.toDTOArrayList(predmet.getSilabus(), false));
         }
         return predmetDTO;

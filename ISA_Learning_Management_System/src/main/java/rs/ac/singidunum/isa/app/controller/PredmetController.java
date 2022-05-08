@@ -5,13 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import rs.ac.singidunum.isa.app.dto.PredmetDTO;
+import rs.ac.singidunum.isa.app.model.Korisnik;
 import rs.ac.singidunum.isa.app.model.Predmet;
+import rs.ac.singidunum.isa.app.service.KorisnikService;
 import rs.ac.singidunum.isa.app.service.PredmetService;
+import rs.ac.singidunum.isa.app.utils.TokenUtils;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -21,6 +21,12 @@ import java.util.Optional;
 public class PredmetController {
     @Autowired
     private PredmetService predmetService;
+
+    @Autowired
+    private TokenUtils tokenUtils;
+
+    @Autowired
+    private KorisnikService korisnikService;
 
     @RequestMapping(path = "", method = RequestMethod.GET)
     public ResponseEntity<Iterable<PredmetDTO>> getAllPredmeti() {
@@ -73,5 +79,31 @@ public class PredmetController {
             return new ResponseEntity<PredmetDTO>(HttpStatus.OK);
         }
         return new ResponseEntity<PredmetDTO>(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(path = "/studentPredmetiNepolozeni", method = RequestMethod.GET)
+    @Secured("ROLE_STUDENT")
+    public ResponseEntity<Iterable<PredmetDTO>> getStudentPredmetiNepolozeni(@RequestHeader("Authorization")String token) {
+        String username = tokenUtils.getUsername(token);
+        Optional<Korisnik> korisnik = korisnikService.findByKorisnickoIme(username);
+        if(korisnik.isPresent()) {
+            ArrayList<PredmetDTO> predmeti = PredmetDTO.toDTOArrayList(predmetService.getStudentPredmetiNepolozeni(korisnik.get().getId()), true);
+
+            return new ResponseEntity<Iterable<PredmetDTO>>(predmeti, HttpStatus.OK);
+        }
+        return new ResponseEntity<Iterable<PredmetDTO>>(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(path = "/studentPredmetiPolozeni", method = RequestMethod.GET)
+    @Secured("ROLE_STUDENT")
+    public ResponseEntity<Iterable<PredmetDTO>> getStudentPredmetiPolozeni(@RequestHeader("Authorization")String token) {
+        String username = tokenUtils.getUsername(token);
+        Optional<Korisnik> korisnik = korisnikService.findByKorisnickoIme(username);
+        if(korisnik.isPresent()) {
+            ArrayList<PredmetDTO> predmeti = PredmetDTO.toDTOArrayList(predmetService.getStudentPredmetiPolozeni(korisnik.get().getId()), true);
+
+            return new ResponseEntity<Iterable<PredmetDTO>>(predmeti, HttpStatus.OK);
+        }
+        return new ResponseEntity<Iterable<PredmetDTO>>(HttpStatus.NOT_FOUND);
     }
 }

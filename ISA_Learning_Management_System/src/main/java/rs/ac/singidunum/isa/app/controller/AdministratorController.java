@@ -97,7 +97,14 @@ public class AdministratorController {
     @RequestMapping(path = "/{administratorId}", method = RequestMethod.DELETE)
     @Secured("ROLE_ADMIN")
     public ResponseEntity<AdministratorDTO> deleteAdministrator(@PathVariable("administratorId") Long administratorId) {
-        if(administratorService.findOne(administratorId).isPresent()) {
+        Optional<Administrator> administrator = administratorService.findOne(administratorId);
+        if(administrator.isPresent()) {
+//            Dodato
+            Optional<PravoPristupa> pravoPristupa = pravoPristupaService.findPravoPristupaByNaziv("ROLE_KORISNIK");
+            Optional<Korisnik> korisnik = korisnikService.findOne(administrator.get().getKorisnik().getId());
+            korisnik.get().setPravoPristupa(pravoPristupa.get());
+            korisnikService.save(korisnik.get());
+//
             administratorService.delete(administratorId);
             return new ResponseEntity<AdministratorDTO>(HttpStatus.OK);
         }

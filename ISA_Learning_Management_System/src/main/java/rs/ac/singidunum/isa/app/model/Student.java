@@ -25,7 +25,7 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private Set<StudentNaGodini> studentNaGodini = new HashSet<StudentNaGodini>();
 
-    @ManyToMany
+    @OneToMany(mappedBy = "student")
     private Set<PohadjanjePredmeta> pohadjanjaPredmeta = new HashSet<PohadjanjePredmeta>();
 
     public Student() {

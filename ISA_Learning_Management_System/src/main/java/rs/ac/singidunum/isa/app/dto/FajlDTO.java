@@ -2,10 +2,11 @@ package rs.ac.singidunum.isa.app.dto;
 
 import rs.ac.singidunum.isa.app.model.Fajl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class FajlDTO {
+public class FajlDTO implements Serializable {
     private Long id;
     private String opis;
     private String url;

@@ -9,8 +9,7 @@ public class PohadjanjePredmetaDTO {
     private Long id;
     private int konacnaOcena;
     private RealizacijaPredmetaDTO realizacijaPredmeta;
-
-    private ArrayList<StudentDTO> studenti = new ArrayList<StudentDTO>();
+    private StudentDTO student;
 
     public PohadjanjePredmetaDTO() {
     }
@@ -26,11 +25,11 @@ public class PohadjanjePredmetaDTO {
         this.realizacijaPredmeta = realizacijaPredmeta;
     }
 
-    public PohadjanjePredmetaDTO(Long id, int konacnaOcena, RealizacijaPredmetaDTO realizacijaPredmeta, ArrayList<StudentDTO> studenti) {
+    public PohadjanjePredmetaDTO(Long id, int konacnaOcena, RealizacijaPredmetaDTO realizacijaPredmeta, StudentDTO student) {
         this.id = id;
         this.konacnaOcena = konacnaOcena;
         this.realizacijaPredmeta = realizacijaPredmeta;
-        this.studenti = studenti;
+        this.student = student;
     }
 
     public Long getId() {
@@ -57,12 +56,12 @@ public class PohadjanjePredmetaDTO {
         this.realizacijaPredmeta = realizacijaPredmeta;
     }
 
-    public ArrayList<StudentDTO> getStudenti() {
-        return studenti;
+    public StudentDTO getStudent() {
+        return student;
     }
 
-    public void setStudenti(ArrayList<StudentDTO> studenti) {
-        this.studenti = studenti;
+    public void setStudent(StudentDTO student) {
+        this.student = student;
     }
 
     public static ArrayList<PohadjanjePredmetaDTO> toDTOArrayList(Iterable<PohadjanjePredmeta> pohadjanjaPredmeta, Boolean depth) {
@@ -85,7 +84,7 @@ public class PohadjanjePredmetaDTO {
         PohadjanjePredmetaDTO pohadjanjePredmetaDTO = new PohadjanjePredmetaDTO(pohadjanjePredmeta.getId(), pohadjanjePredmeta.getKonacnaOcena());
         if(depth) {
             pohadjanjePredmetaDTO.setRealizacijaPredmeta(RealizacijaPredmetaDTO.toDTO(pohadjanjePredmeta.getRealizacijaPredmeta(), false));
-            pohadjanjePredmetaDTO.setStudenti(StudentDTO.toDTOArrayList(pohadjanjePredmeta.getStudenti(), false));
+            pohadjanjePredmetaDTO.setStudent(StudentDTO.toDTO(pohadjanjePredmeta.getStudent(), false));
         }
         return pohadjanjePredmetaDTO;
     }

@@ -11,12 +11,12 @@ public class GodinaStudija {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date godina;
 
-    @ManyToOne(optional = false)
-    private Predmet predmet;
+    @ManyToMany
+    private Set<Predmet> predmeti = new HashSet<Predmet>();
 
     @ManyToMany
     private Set<StudijskiProgram> studijskiProgrami = new HashSet<StudijskiProgram>();
@@ -24,16 +24,10 @@ public class GodinaStudija {
     public GodinaStudija() {
     }
 
-    public GodinaStudija(Long id, Date godina, Predmet predmet) {
+    public GodinaStudija(Long id, Date godina, Set<Predmet> predmeti, Set<StudijskiProgram> studijskiProgrami) {
         this.id = id;
         this.godina = godina;
-        this.predmet = predmet;
-    }
-
-    public GodinaStudija(Long id, Date godina, Predmet predmet, Set<StudijskiProgram> studijskiProgrami) {
-        this.id = id;
-        this.godina = godina;
-        this.predmet = predmet;
+        this.predmeti = predmeti;
         this.studijskiProgrami = studijskiProgrami;
     }
 
@@ -53,12 +47,12 @@ public class GodinaStudija {
         this.godina = godina;
     }
 
-    public Predmet getPredmet() {
-        return predmet;
+    public Set<Predmet> getPredmeti() {
+        return predmeti;
     }
 
-    public void setPredmet(Predmet predmet) {
-        this.predmet = predmet;
+    public void setPredmeti(Set<Predmet> predmeti) {
+        this.predmeti = predmeti;
     }
 
     public Set<StudijskiProgram> getStudijskiProgrami() {

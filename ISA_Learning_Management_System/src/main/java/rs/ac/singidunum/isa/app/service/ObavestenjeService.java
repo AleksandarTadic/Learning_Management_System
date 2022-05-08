@@ -46,4 +46,8 @@ public class ObavestenjeService {
     public void delete(Obavestenje obavestenje) {
         this.obavestenjeRepository.delete(obavestenje);
     }
+
+    public Iterable<Obavestenje> getStudentObavestenja(Long id) {
+        return this.obavestenjeRepository.getStudentObavestenja(id);
+    }
 }

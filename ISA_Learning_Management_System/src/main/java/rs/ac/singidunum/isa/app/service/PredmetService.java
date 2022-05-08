@@ -46,4 +46,12 @@ public class PredmetService {
     public void delete(Predmet predmet) {
         this.predmetRepository.delete(predmet);
     }
+
+    public Iterable<Predmet> getStudentPredmetiNepolozeni(Long id) {
+        return this.predmetRepository.getStudentPredmetiNepolozeni(id);
+    }
+
+    public Iterable<Predmet> getStudentPredmetiPolozeni(Long id) {
+        return this.predmetRepository.getStudentPredmetiPolozeni(id);
+    }
 }

@@ -41,11 +41,13 @@ public class Predmet {
     @ManyToOne(optional = true)
     private Predmet preduslov;
 
-//    @OneToMany(mappedBy = "predmet")
-//    private Set<Predmet> predmeti = new HashSet<Predmet>();
-
     @OneToMany(mappedBy = "predmet")
     private Set<Ishod> silabus = new HashSet<Ishod>();
+
+    //    Dodato potrebo je doraditi kad se odrede veze !!!!!
+    @ManyToMany
+    private Set<GodinaStudija> godineStudija = new HashSet<GodinaStudija>();
+    //  ^^^^^
 
 
     public Predmet() {
@@ -78,7 +80,22 @@ public class Predmet {
         this.preduslov = preduslov;
     }
 
-    public Predmet(Long id, String naziv, int espb, boolean obavezan, int brojPredavanja, int brojVezbi, int drugiObliciNastave, int istrazivackiRad, int ostaliCasovi, int brojSemestara, Predmet preduslov, Set<Ishod> silabus) {
+    public Predmet(Long id, String naziv, int espb, boolean obavezan, int brojPredavanja, int brojVezbi, int drugiObliciNastave, int istrazivackiRad, int ostaliCasovi, int brojSemestara, Set<Ishod> silabus, Set<GodinaStudija> godineStudija) {
+        this.id = id;
+        this.naziv = naziv;
+        this.espb = espb;
+        this.obavezan = obavezan;
+        this.brojPredavanja = brojPredavanja;
+        this.brojVezbi = brojVezbi;
+        this.drugiObliciNastave = drugiObliciNastave;
+        this.istrazivackiRad = istrazivackiRad;
+        this.ostaliCasovi = ostaliCasovi;
+        this.brojSemestara = brojSemestara;
+        this.silabus = silabus;
+        this.godineStudija = godineStudija;
+    }
+
+    public Predmet(Long id, String naziv, int espb, boolean obavezan, int brojPredavanja, int brojVezbi, int drugiObliciNastave, int istrazivackiRad, int ostaliCasovi, int brojSemestara, Predmet preduslov, Set<Ishod> silabus, Set<GodinaStudija> godineStudija) {
         this.id = id;
         this.naziv = naziv;
         this.espb = espb;
@@ -91,6 +108,7 @@ public class Predmet {
         this.brojSemestara = brojSemestara;
         this.preduslov = preduslov;
         this.silabus = silabus;
+        this.godineStudija = godineStudija;
     }
 
     public Long getId() {
@@ -181,20 +199,20 @@ public class Predmet {
         this.preduslov = preduslov;
     }
 
-    //    public Set<Predmet> getPredmeti() {
-//        return predmeti;
-//    }
-//
-//    public void setPredmeti(Set<Predmet> predmeti) {
-//        this.predmeti = predmeti;
-//    }
-
     public Set<Ishod> getSilabus() {
         return silabus;
     }
 
     public void setSilabus(Set<Ishod> silabus) {
         this.silabus = silabus;
+    }
+
+    public Set<GodinaStudija> getGodineStudija() {
+        return godineStudija;
+    }
+
+    public void setGodineStudija(Set<GodinaStudija> godineStudija) {
+        this.godineStudija = godineStudija;
     }
 
 }

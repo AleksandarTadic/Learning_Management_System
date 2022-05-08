@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import rs.ac.singidunum.isa.app.dto.NastavnikDTO;
-import rs.ac.singidunum.isa.app.model.Korisnik;
-import rs.ac.singidunum.isa.app.model.Nastavnik;
-import rs.ac.singidunum.isa.app.model.PravoPristupa;
-import rs.ac.singidunum.isa.app.model.Zvanje;
+import rs.ac.singidunum.isa.app.model.*;
 import rs.ac.singidunum.isa.app.service.KorisnikService;
 import rs.ac.singidunum.isa.app.service.NastavnikService;
 import rs.ac.singidunum.isa.app.service.PravoPristupaService;
@@ -50,7 +47,7 @@ public class NastavnikController {
     }
 
     @RequestMapping(path = "", method = RequestMethod.POST)
-    @Secured("ROLE_ADMIN")
+//    @Secured("ROLE_ADMIN")
     public ResponseEntity<NastavnikDTO> createNastavnik(@RequestBody Nastavnik nastavnik) {
 //Dodato
         for(Zvanje z : nastavnik.getZvanja()) {
@@ -106,7 +103,14 @@ public class NastavnikController {
     @RequestMapping(path = "/{nastavnikId}", method = RequestMethod.DELETE)
     @Secured("ROLE_ADMIN")
     public ResponseEntity<NastavnikDTO> deleteNastavnik(@PathVariable("nastavnikId") Long nastavnikId) {
-        if(nastavnikService.findOne(nastavnikId).isPresent()) {
+        Optional<Nastavnik> nastavnik = nastavnikService.findOne(nastavnikId);
+        if(nastavnik.isPresent()) {
+//            Dodato
+            Optional<PravoPristupa> pravoPristupa = pravoPristupaService.findPravoPristupaByNaziv("ROLE_KORISNIK");
+            Optional<Korisnik> korisnik = korisnikService.findOne(nastavnik.get().getKorisnik().getId());
+            korisnik.get().setPravoPristupa(pravoPristupa.get());
+            korisnikService.save(korisnik.get());
+//
             nastavnikService.delete(nastavnikId);
             return new ResponseEntity<NastavnikDTO>(HttpStatus.OK);
         }

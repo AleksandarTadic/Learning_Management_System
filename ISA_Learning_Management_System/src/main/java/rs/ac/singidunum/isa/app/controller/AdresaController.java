@@ -40,7 +40,7 @@ public class AdresaController {
     }
 
     @RequestMapping(path = "", method = RequestMethod.POST)
-//    @Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<AdresaDTO> createAdresa(@RequestBody Adresa adresa) {
         try {
             adresaService.save(adresa);

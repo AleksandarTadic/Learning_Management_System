@@ -10,14 +10,14 @@ public class PohadjanjePredmeta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = true)
     private int konacnaOcena;
 
     @ManyToOne(optional = false)
     private RealizacijaPredmeta realizacijaPredmeta;
 
-    @ManyToMany
-    private Set<Student> studenti = new HashSet<Student>();
+    @ManyToOne(optional = false)
+    private Student student;
 
     public PohadjanjePredmeta() {
     }
@@ -28,11 +28,11 @@ public class PohadjanjePredmeta {
         this.realizacijaPredmeta = realizacijaPredmeta;
     }
 
-    public PohadjanjePredmeta(Long id, int konacnaOcena, RealizacijaPredmeta realizacijaPredmeta, Set<Student> studenti) {
+    public PohadjanjePredmeta(Long id, int konacnaOcena, RealizacijaPredmeta realizacijaPredmeta, Student student) {
         this.id = id;
         this.konacnaOcena = konacnaOcena;
         this.realizacijaPredmeta = realizacijaPredmeta;
-        this.studenti = studenti;
+        this.student = student;
     }
 
     public Long getId() {
@@ -59,11 +59,11 @@ public class PohadjanjePredmeta {
         this.realizacijaPredmeta = realizacijaPredmeta;
     }
 
-    public Set<Student> getStudenti() {
-        return studenti;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudenti(Set<Student> studenti) {
-        this.studenti = studenti;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import rs.ac.singidunum.isa.app.service.KorisnikService;
 import rs.ac.singidunum.isa.app.service.PravoPristupaService;
 import rs.ac.singidunum.isa.app.utils.TokenUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Controller
@@ -75,5 +78,15 @@ public class LoginController {
         }
         korisnikService.save(noviKorisnik);
         return new ResponseEntity<KorisnikDTO>(KorisnikDTO.toDTO(noviKorisnik, true), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public ResponseEntity<KorisnikDTO> logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+//        SecurityContextHolder.getContext().setAuthentication(null);
+        return new ResponseEntity<KorisnikDTO>(HttpStatus.OK);
     }
 }
