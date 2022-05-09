@@ -15,7 +15,7 @@ public class GodinaStudija {
     @Column(nullable = false)
     private Date godina;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "godinaStudija")
     private Set<Predmet> predmeti = new HashSet<Predmet>();
 
     @ManyToMany
