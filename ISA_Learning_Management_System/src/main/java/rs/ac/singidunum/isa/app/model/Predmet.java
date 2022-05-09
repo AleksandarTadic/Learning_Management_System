@@ -44,7 +44,7 @@ public class Predmet {
     @ManyToOne(optional = true)
     private Predmet preduslov;
 
-    @OneToMany(mappedBy = "predmet")
+    @OneToMany(mappedBy = "predmet", cascade = CascadeType.ALL)
     private Set<Ishod> silabus = new HashSet<Ishod>();
 
 

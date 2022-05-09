@@ -7,9 +7,9 @@ import rs.ac.singidunum.isa.app.model.Predmet;
 
 @Repository
 public interface PredmetRepository extends CrudRepository<Predmet, Long> {
-    @Query(value = "SELECT p FROM Predmet p, Student s, PohadjanjePredmeta pp, RealizacijaPredmeta rp WHERE s.korisnik.id =:id AND pp.student.id = s.id AND pp.realizacijaPredmeta.id = rp.id AND rp.predmet.id = p.id AND pp.konacnaOcena IS NULL")
+    @Query(value = "SELECT p FROM Predmet p, Student s, PohadjanjePredmeta pp, RealizacijaPredmeta rp WHERE s.korisnik.id =:id AND pp.student.id = s.id AND pp.realizacijaPredmeta.id = rp.id AND rp.predmet.id = p.id AND pp.konacnaOcena = 0")
     Iterable<Predmet> getStudentPredmetiNepolozeni(Long id);
 
-    @Query(value = "SELECT p FROM Predmet p, Student s, PohadjanjePredmeta pp, RealizacijaPredmeta rp WHERE s.korisnik.id =:id AND pp.student.id = s.id AND pp.realizacijaPredmeta.id = rp.id AND rp.predmet.id = p.id AND pp.konacnaOcena IS NOT NULL")
+    @Query(value = "SELECT p FROM Predmet p, Student s, PohadjanjePredmeta pp, RealizacijaPredmeta rp WHERE s.korisnik.id =:id AND pp.student.id = s.id AND pp.realizacijaPredmeta.id = rp.id AND rp.predmet.id = p.id AND pp.konacnaOcena != 0")
     Iterable<Predmet> getStudentPredmetiPolozeni(Long id);
 }
